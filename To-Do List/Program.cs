@@ -11,8 +11,16 @@
                 string task = Console.ReadLine();
                 if (task == "addTask")
                 {
-                    Console.WriteLine("What is the task name?");
-                    string taskName = Console.ReadLine();
+                    bool isEmpty = true;
+                    string taskName = "";
+                    while (isEmpty == true)
+                    {
+                        Console.WriteLine("What is the task name?");
+                       taskName = Console.ReadLine();
+                        if (!string.IsNullOrEmpty(taskName)) {
+                            isEmpty = false;
+                        }
+                    }
                     listItem item = new listItem();
                     item.setName(taskName);
                     taskList.Add(item);
@@ -27,9 +35,15 @@
                     }
                     else
                     {
-                        completeTaskList(taskList);
-                        string completedTaskIDString = Console.ReadLine();
-                        int completedTaskID = System.Convert.ToInt32(completedTaskIDString);
+                        bool isAnInt = false;
+                        int completedTaskID = 0;
+                        while (isAnInt == false || (completedTaskID > (taskList.Count-1) || completedTaskID < (taskList.Count - 1)))
+                        {
+                            completeTaskList(taskList);
+                            string completedTaskIDString = Console.ReadLine();
+                            isAnInt = Int32.TryParse(completedTaskIDString, out completedTaskID);
+                        }
+                        
                         taskList[completedTaskID].setremovedOrNot(false);
                         renderTaskList(taskList);
                     }
